@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXSIZE 10
+
+
+//树结点
+struct TreeNode {
+	char data;
+	struct TreeNode* lchild;
+	struct TreeNode* rchild;
+};
+
+struct SqStack {  //定义存放括号的顺序栈
+	int* top;      //栈顶指针
+	int* base;     //栈底指针
+	int stackSIZE; //定义栈中能存放的元素个数
+};
+
+void InitStack(struct SqStack* s) {
+	int* p = (int*)malloc(MAXSIZE * sizeof(int));  //为栈开辟空间
+	s->top = p;     //初始化栈顶指针
+	s->base = p;    //初始化栈底指针
+	s->stackSIZE = MAXSIZE; //确定栈大小
+}
+
+bool stackEmpty(struct SqStack* s) {  //判断栈是否空
+	if (s->top == s->base) {          //栈顶和栈底指向一样即为空
+		printf("Stack is empty\n");
+		return true;
+	}
+	else  return false;
+}
+
+int Push(struct SqStack* s, TreeNode p) {  //将新数据压栈
+	if (s->top - s->base == s->stackSIZE) {  //判断栈是否满
+		printf("栈已满，不可继续录入数据\n");
+		return -1;
+	}
+	*s->top++ = p->data; //将数据压栈
+	return 0;
+}
+
+int Pop(struct SqStack* s, char& data) {   //出栈
+	if (s->top == s->base) {
+		printf("Stack is empty\n");
+		return -1;
+	}
+	data = *s->top--;
+	return 0;
+}
+
+
+//创建树
+void CreatTree(struct TreeNode* T) {
+	char ch;
+	scanf("%c", &ch);
+	if (ch == '#') {
+		T = NULL;
+	}
+	else {
+		T = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+		T->data = ch;
+
+		CreatTree(T->lchild);
+		CreatTree(T->rchild);
+	}
+}
+
+//访问结点
+void visit(struct TreeNode* T) {  
+
+	printf("%c\n",T->data);
+}
+
+//先序递归遍历
+void PreOder(struct TreeNode* T) {  
+	if (T != NULL) {
+		visit(T);                    //访问根结点
+		PreOder(T->lchild);          //递归遍历左子树
+		PreOder(T->rchild);          //递归遍历右子树
+	}
+}
+
+//中序递归遍历
+void InOder(struct TreeNode* T) {  
+
+	if (T != NULL) {
+		PreOder(T->lchild);            //递归遍历左子树
+		visit(T);                      //访问根节点
+		PreOder(T->rchild);            //递归遍历右子树
+	}
+}
+
+//后序递归遍历
+void PostOder(struct TreeNode* T) {
+	if (T != NULL) {
+		PreOder(T->lchild);            //递归遍历左子树
+		PreOder(T->rchild);            //递归遍历右子树
+		visit(T);                      //访问根节点
+	}
+}
+
+
+
+int main() {
+
+	struct TreeNode* T = NULL;
+	CreatTree(T);
+
+	printf("先序递归遍历：");
+	PreOder(T);
+	printf("\n");
+
+	printf("中序递归遍历：");
+	InOder(T);
+	printf("\n");
+
+	printf("后序递归遍历：");
+	PostOder(T);
+	printf("\n");
+
+}
