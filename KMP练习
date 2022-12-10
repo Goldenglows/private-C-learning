@@ -1,0 +1,191 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+#define MAXSIZE 100
+
+struct SqString {
+	char data[MAXSIZE];
+	int length;
+};
+
+//取得模式串的next数组
+void get_next(SqString* T, int next[]) {
+	int i = 1, j = 0;
+	next[1] = 0;
+	while (i < T->length) {
+		if (j == 0 || T->data[i] == T->data[j]) {
+			++i; ++j;
+			next[i] = j;
+		}
+		else j = next[j];
+	}
+}
+
+//取得模式串的nextval数组
+void get_nextval(SqString* t, int nextval[]){
+	int next[MAXSIZE];
+	get_next(t, next);
+	nextval[1] = 0;
+	for (int j = 2; j <= t->length; j++) {
+		if (t->data[next[j]] == t->data[j])
+			nextval[j] = nextval[next[j]];
+		else  nextval[j] = next[j];
+	}
+}
+	
+//利用nextval来匹配字符串
+void kmp_indexva1(SqString* s, SqString* t) {
+	int nextval[MAXSIZE], i = 0, j = 0;
+	get_nextval(t, nextval);
+	while (i < s->length && j < t->length) {
+		if (j == 1 || s->data[i] == t->data[j]) {
+			i++; j++;
+		}
+		else j = nextval[j];
+	}
+	if (j >= t->length) 
+		printf("匹配成功，主串位置为：%d\n", i - t->length);
+	else printf("匹配失败（- o -）");
+	
+}
+	
+//利用next来匹配字符串
+void kmp_index(SqString *s, SqString *t) {
+	int next[MAXSIZE], i = 0, j = 0;
+	while (i < s->length && j < t->length) {
+		if (j == 1 || s->data[i] == t->data[j]) {
+			i++; j++;
+		}
+		else j = next[j];
+	}
+	if (j >= t->length)
+		printf("匹配成功，主串位置为：%d\n", i - t->length);
+	else printf("匹配失败（- o -）");
+}
+
+int main() {
+
+	struct SqString * Source = (struct SqString *)malloc(MAXSIZE * sizeof(struct SqString));
+	struct SqString * Target = (struct SqString *)malloc(MAXSIZE * sizeof(struct SqString));
+	int * next   = (int  *)malloc(MAXSIZE * sizeof(int ));
+
+	printf("请输入主串：\n");
+	for (int i=0; i < MAXSIZE; i++) {
+		scanf("%[^\n]", Source->data[i]);
+		getchar();
+	}
+
+	printf("请输入模式串：\n");
+	for (int i=0; i < MAXSIZE; i++) {
+		scanf("%[^\n]", Target->data[i]);
+		getchar();
+	}
+
+	get_next(Target, next);
+	kmp_index(Source, Target);
+	kmp_indexva1(Source, Target);
+
+}
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+#define MAXSIZE 100
+
+int get_length(char *t) {
+	int i = 0;
+	while (t[i] != '\0') {
+		i++;
+	}
+	return i;
+}
+
+//取得模式串的next数组
+void get_next(char* T, int next[]) {
+	int i = 1, j = 0;
+	next[1] = 0;
+	while (i < get_length(T) ){
+		if (j == 0 || T[i] == T[j]) {
+			++i; ++j;
+			next[i] = j;
+		}
+		else j = next[j];
+	}
+}
+
+//取得模式串的nextval数组
+void get_nextval(char *t, int nextval[]) {
+	int next[MAXSIZE];
+	get_next(t, next);
+	nextval[1] = 0;
+	for (int j = 2; j <= get_length(t); j++) {
+		if (t[next[j]] == t[j])
+			nextval[j] = nextval[next[j]];
+		else  nextval[j] = next[j];
+	}
+}
+
+//利用nextval来匹配字符串
+void kmp_indexva1(char* s, char* t) {
+	int nextval[MAXSIZE], i = 0, j = 0;
+	get_nextval(t, nextval);
+	while (i < get_length(s) && j < get_length(t)) {
+		if (j == 1 || s[i] == t[j]) {
+			i++; j++;
+		}
+		else j = nextval[j];
+	}
+	if (j >= get_length(t))
+		printf("匹配成功，主串位置为：%d\n", i - get_length(t));
+	else printf("匹配失败（- o -）");
+
+}
+
+//利用next来匹配字符串
+void kmp_index(char* s, char* t) {
+	int next[MAXSIZE], i = 0, j = 0;
+	while (i < get_length(s) && j < get_length(t)) {
+		if (j == 1 || s[i] == t[j]) {
+			i++; j++;
+		}
+		else j = next[j];
+	}
+	if (j >= get_length(t))
+		printf("匹配成功，主串位置为：%d\n", i - get_length(t));
+	else printf("匹配失败（- o -）");
+}
+
+int main() {
+
+	char* Source = (char*)malloc(MAXSIZE * sizeof(char));
+	char* Target = (char*)malloc(MAXSIZE * sizeof(char));
+	int* next = (int*)malloc((MAXSIZE) * sizeof(int));
+
+	printf("请输入主串：");
+	scanf("%[^\n]", Source);
+	getchar();
+
+	printf("请输入模式串：");
+	scanf("%[^\n]", Target);
+	getchar();
+
+	get_next(Target, next);
+	kmp_index(Source, Target);
+
+	int* nextval = (int*)malloc((MAXSIZE) * sizeof(int));
+	get_nextval(Target, nextval);
+	kmp_indexva1(Source, Target);
+
+	free(Source);
+	free(Target);
+	free(next);
+	free(nextval);
+
+}
+
