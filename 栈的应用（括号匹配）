@@ -1,0 +1,93 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXSIZE 10
+
+struct SqStack {  //定义存放括号的顺序栈
+	int* top;      //栈顶指针
+	int* base;     //栈底指针
+	int stackSIZE; //定义栈中能存放的元素个数
+};
+
+void InitStack(struct SqStack* s) {
+	int* p = (int*)malloc(MAXSIZE * sizeof(int));  //为栈开辟空间
+	s->top = p;     //初始化栈顶指针
+	s->base = p;    //初始化栈底指针
+	s->stackSIZE = MAXSIZE; //确定栈大小
+}
+
+bool stackEmpty(struct SqStack* s) {  //判断栈是否空
+	if (s->top == s->base) {          //栈顶和栈底指向一样即为空
+		printf("Stack is empty\n");
+		return true;
+	}
+	else  return false;
+}
+
+int PushStack(struct SqStack* s, char data) {  //将新数据压栈
+	if (s->top - s->base == s->stackSIZE) {  //判断栈是否满
+		printf("栈已满，不可继续录入数据\n");
+		return -1;
+	}
+	*s->top++ = data; //将数据压栈
+	return 0;
+}
+
+int PopStack(struct SqStack* s, char& data) {   //出栈
+	if (s->top == s->base) {
+		printf("Stack is empty\n");
+		return -1;
+	}
+	data = *s->top--;
+	return 0;
+}
+
+bool BracketMatch(struct SqStack* s, char str[]) {  //括号匹配
+	for (int i = 0; i < MAXSIZE; i++) {
+		if (str[i] == '(' || str[i] == '[' || str[i] == '{') { //判断是否为左括号
+			PushStack(s, str[i]); //是的话，直接入栈
+		}
+		else {
+			if (stackEmpty(s)) {  //不是左括号，切栈空，则匹配失败
+				return false;
+			}
+
+		}
+		char topelem;
+		PopStack(s, topelem); //是刚刚入栈的括号出栈
+		//分别判断其是否为（）｛｝【】
+		if (topelem != '(' && str[i] == ')') {  //当栈顶不为左括号，待匹配序列为右括号 
+			return false;   //匹配失败 
+		}
+		if (topelem != '[' && str[i] == ']') {
+			return false;
+		}
+		if (topelem != '{' && str[i] == '}') {
+			return false;
+		}
+		return stackEmpty;  //最后判断栈中是否有数据，如果有则匹配失败
+	}
+}
+
+int main() {
+	struct SqStack* s = (struct SqStack*)malloc(sizeof(struct SqStack));
+	InitStack(s);//初始化栈
+
+	char strings[20], bracket[10];
+	printf("请输入你的表达式：\n");
+	scanf("%s", strings);
+	//for (int i = 0; i < 20; i++) {
+	//	if (strings[i] == '(' || strings[i] == ')' || strings[i] == '[' || strings[i] == ']' || strings[i] == '{' || strings[i] == '}')
+	//		bracket[i] = strings[i];
+	//}  //将刚刚输入的字符串中的括号提炼出来
+
+	if (BracketMatch(s, bracket)) {  //判断是否匹配成功
+		printf("匹配成功！");
+	}
+	else printf("匹配失败！");
+
+	return 0;
+}
