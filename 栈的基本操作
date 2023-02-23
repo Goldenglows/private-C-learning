@@ -1,0 +1,283 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAXSIZE 10
+
+/*
+typedef struct Stack {
+    int top; // 栈顶指针
+	int base;//栈底指针
+    int data[MAXSIZE]; // 存储栈元素的数组
+	int stackSize;
+} Stack;
+
+// 初始化栈
+void InitStack(struct Stack* s) {
+	int* p = (int*)malloc(MAXSIZE * sizeof(int));
+	s->base = p;
+	s->top = p;
+	s->stackSize = MAXSIZE;
+
+}
+
+// 判断栈是否为空
+int isEmpty(Stack* s) {
+    return s->top == -1;
+}
+
+// 判断栈是否已满
+int isFull(Stack* s) {
+    return s->top == MAXSIZE - 1;
+}
+
+// 入栈操作
+void push(Stack* stack, int element) {
+    if (isFull(stack)) {
+        printf("Stack is full!\n");
+        return;
+    }
+    *stack->top++= element; // 栈顶指针加1
+    stack->data[stack->top] = element; // 将元素压入栈顶
+	printf("Push data: %d in stack\n", element);
+	return 0;
+}
+
+// 出栈操作
+int pop(Stack* s) {
+    if (isEmpty(s)) {
+        printf("Stack is empty!\n");
+        return -1;
+    }
+    int element = s->data[s->top]; // 取出栈顶元素
+    return *s->top--; // 栈顶指针减1
+
+}
+
+/*
+//展示栈中元素
+void DispStack(Stack* s) {
+	int* p = s->top;
+	while (p != s->base) {
+		printf("%d\n", *--p);
+	}
+}
+*/
+/*
+// 获取栈顶元素
+int top(Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty!\n");
+        return -1;
+    }
+    return stack->data[stack->top];
+}
+
+// 清空栈
+void clearStack(Stack* stack) {
+    stack->top = -1; // 将栈顶指针重置为-1
+}
+
+int main() {
+	struct SqStack* s = (struct SqStack*)malloc(sizeof(struct SqStack));
+    initStack(&s); // 初始化栈
+
+	for (int i = 0; i < 5; i++) {
+		Push(s, i);
+	}
+
+    printf("栈顶元素为 %d\n", top(&s));
+    int element = pop(&s);
+    printf("%d出栈后，此时的栈顶元素为%d\n", element, top(&s));
+
+    clearStack(&s);
+
+    return 0;
+}
+*/
+/*
+typedef struct ST {
+	char data[Maxsize];
+	int  top;
+} Stack;
+
+void Init(Stack* L) {
+	L->top = -1;
+}
+
+void Push(Stack* L, char x) {
+	if (L->top >= Maxsize) {
+		return;
+	}
+	L->top++;
+	L->data[L->top] = x;
+}
+
+int Empty(Stack L) { //判空
+	if (L.top == -1) {
+		return 1;//为空返回1
+	}
+	return 0;    //不为空返回0
+}
+
+void Print(Stack L) {
+	for (int i = L.top; i > -1; i--) {
+		printf("%c   ", L.data[i]);
+	}
+}
+
+void Pop(Stack* L) {
+	if (L->top == -1) {
+		return;
+	}
+	L->top--;
+}
+
+char Get(Stack L) {
+	return L.data[L.top];
+}
+
+int main() {
+	Stack L;
+	char s[100] ={'(','[','{',']','}',')'};
+	while (s[100]) {
+		Init(&L);
+		int flag = 1;
+		//printf("%s",s);
+		for (int i = 0; s[i] != '\0'; i++) {
+			if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
+				if (L.top < Maxsize) {
+					char x = s[i];
+					Push(&L, x);
+				}
+
+			}
+			else if (s[i] == ')') {
+
+				if (Empty(L)) {
+					flag = 0;
+					break;
+				}
+				else {
+					if (Get(L) == '(') {
+						Pop(&L);
+					}
+					else {
+						flag = 0;
+						break;
+					}
+				}
+			}
+			else if (s[i] == '}') {
+
+				if (Empty(L)) {
+					flag = 0;
+					break;
+				}
+				else {
+					if (Get(L) == '{') {
+						Pop(&L);
+					}
+					else {
+						flag = 0;
+						break;
+					}
+				}
+			}
+			else if (s[i] == ']') {
+				if (Empty(L)) {
+					flag = 0;
+					break;
+				}
+				else {
+					if (Get(L) == '[') {
+						Pop(&L);
+					}
+					else {
+						flag = 0;
+						break;
+					}
+				}
+			}
+		}
+		if (!Empty(L)) {
+			flag = 0;
+		}
+		if (flag == 1 && Empty(L)) {
+			printf("匹配成功\n");
+		}
+		else {
+			printf("匹配失败\n");
+		}
+	}
+	return 0;
+}
+*/
+
+struct Stack {
+	int* base;//栈底元素
+	int* top;//栈顶元素
+	int len;//栈的长度
+};
+
+void Initstack(struct Stack* s) {//初始化栈
+	int* p = (int*)malloc(MAXSIZE * sizeof(int));
+	s->base = p;
+	s->top = p;
+	s->len = MAXSIZE;
+}
+
+int Push(struct Stack* s, int element) {//入栈
+	if (s->top - s->base == s->len) {//判满
+		printf("栈满，无法入栈\n");
+		return -1;
+	}
+
+	*s->top++ = element;
+	return 0;
+}
+
+int Pop(struct Stack* s) {//出栈
+	if (s->top == s->base) {
+		printf("Stack is empty\n");
+		return -1;
+	}
+
+	return *--s->top;
+}
+
+int GetTop(struct Stack* s) {//取栈顶元素
+	if (s->top == s->base) {
+		printf("Stack is empty\n");
+		return -1;
+	}
+
+	return *(s->top - 1);
+}
+
+void DispStack(struct Stack* s) {//展示栈中元素
+	int* p = s->top;
+	printf("栈中的元素如下（栈顶到栈底）：\n");
+	while (p != s->base) {
+		printf("%d\n", *--p);
+	}
+}
+
+int main()
+{
+	struct Stack* s = (struct Stack*)malloc(sizeof(struct Stack));
+	Initstack(s);
+
+	for (int i = 0; i < 6; i++) //将0-5依次压栈
+		Push(s, i);
+	
+	DispStack(s);
+
+	for (int i = 0; i < 6; i++) {//将五个元素依次出栈
+		printf("出栈元素： %d\n", Pop(s));
+		printf("此时栈顶元素：%d\n", GetTop(s));
+	}
+	
+	free(s);
+	return 0;
+
+}
