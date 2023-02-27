@@ -1,0 +1,32 @@
+﻿  广度.cpp
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\广度.cpp(70,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\广度.cpp(82,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\广度.cpp(88,9): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\广度.cpp(95,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  深度.cpp
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(72,24): error C2011: “ArcNode”:“struct”类型重定义
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(6,16): message : 参见“ArcNode”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(81,10): error C2369: “AdjList”: 重定义；不同的下标
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(14,15): message : 参见“AdjList”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(88,3): error C2371: “Graph”: 重定义；不同的基类型
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(19,3): message : 参见“Graph”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(96,6): error C2039: "visited": 不是 "Graph" 的成员
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(16,16): message : 参见“Graph”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(104,3): error C2027: 使用了未定义类型“ArcNode”
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(6,16): message : 参见“ArcNode”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(105,3): error C2027: 使用了未定义类型“ArcNode”
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(6,16): message : 参见“ArcNode”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(113,5): error C2039: "visited": 不是 "Graph" 的成员
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(16,16): message : 参见“Graph”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(116,12): error C2027: 使用了未定义类型“ArcNode”
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(6,16): message : 参见“ArcNode”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(117,10): error C2039: "visited": 不是 "Graph" 的成员
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(16,16): message : 参见“Graph”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(120,8): error C2027: 使用了未定义类型“ArcNode”
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(6,16): message : 参见“ArcNode”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(128,10): error C2039: "visited": 不是 "Graph" 的成员
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(16,16): message : 参见“Graph”的声明
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(157,6): error C2601: “main”: 本地函数定义是非法的
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(135): message : 此行有一个“{”没有匹配项
+D:\Code exercises\C C++\数据结构期末复习\图的联系\图的联系\深度.cpp(135): fatal  error C1075: “{”: 未找到匹配令牌
+  正在生成代码...

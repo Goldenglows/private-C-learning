@@ -1,0 +1,5 @@
+﻿  源.cpp
+D:\Code exercises\C C++\数据结构期末复习\树遍历\树遍历\源.cpp(16,19): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+D:\Code exercises\C C++\数据结构期末复习\树遍历\树遍历\栈.h(74): warning C4715: “Pop”: 不是所有的控件路径都返回值
+D:\Code exercises\C C++\数据结构期末复习\树遍历\树遍历\栈.h(123): warning C4715: “Pop_1”: 不是所有的控件路径都返回值
+  树遍历.vcxproj -> D:\Code exercises\C C++\数据结构期末复习\树遍历\x64\Debug\树遍历.exe
