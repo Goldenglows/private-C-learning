@@ -1,0 +1,229 @@
+#include <stdio.h>
+#include <stdbool.h>
+// 最大内存分区数量
+#define MAX_NUM 5 
+
+// 当前内存分区数量
+int count = 0; 
+
+// 内存分块结构体: 起始地址、大小、占用情况
+typedef struct NeiCun {
+    int start;
+    int size;
+    bool fenpei;
+} MemoryBlock;
+
+// 内存分块数组
+NeiCun Neicun_space[MAX_NUM];
+
+// 添加内存分块
+void Add_Neicun(int start, int size, bool is_used) 
+{
+    NeiCun block = { start, size, is_used };
+    if (count < MAX_NUM) 
+    {
+        Neicun_space[count] = block;
+        count++;
+    }
+}
+
+// 初始化内存布局，包括5个空闲块
+void init_Neicun() 
+{
+    Add_Neicun(100, 60, false);
+    Add_Neicun(240, 120, false);
+    Add_Neicun(500, 100, false);
+    Add_Neicun(760, 80, false);
+    Add_Neicun(960, 40, false);
+}
+
+// 根据起始地址查找内存分块
+NeiCun* find_start(int start) 
+{
+    for (int i = 0; i < count; i++) 
+    {
+        if (Neicun_space[i].start == start) 
+        {
+            return &Neicun_space[i];
+        }
+    }
+    return NULL;
+}
+
+// 计算内存中空块数量
+int empty_space() 
+{
+    int count = 0;
+    for (int i = 0; i < MAX_NUM; i++) 
+    {
+        if (!Neicun_space[i].fenpei) 
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+// FF 内存分配算法
+NeiCun* FF(int size) 
+{
+    int start1 = -1;
+    int minsize = 1001;
+    for (int i = 0; i < count; i++) 
+    {
+        if (!Neicun_space[i].fenpei && Neicun_space[i].size >= size) 
+        {
+            if (Neicun_space[i].size < minsize) 
+            {
+                minsize = Neicun_space[i].size;
+                start1 = i;
+            }
+        }
+    }
+    if (start1 == -1)
+    {
+        // 没有找到合适的空闲块，分配失败
+        return NULL;
+    }
+    NeiCun* block = &Neicun_space[start1];
+    if (block->size == size) 
+    {
+        // 空闲块大小正好等于请求大小，不需要分割
+        block->fenpei = true;
+        return block;
+    }
+    // 分割空闲块
+    NeiCun new_space = { block->start + size, block->size - size, false };
+    if (count < MAX_NUM) 
+    {
+        // 把新分配的空闲块添加到内存分区数组中
+        for (int i = count; i > start1 + 1; i--) 
+        {
+            Neicun_space[i] = Neicun_space[i - 1];
+        }
+        Neicun_space[start1 + 1] = new_space;
+        count++;
+        block->size = size;
+        block->fenpei = true;
+        return block;
+    }
+    else 
+    {
+        // 内存分区数组已满，分配失败
+        return NULL;
+    }
+}
+
+// NF 内存分配算法
+NeiCun* NF(int size) 
+{
+    int start_index = -1;
+    int max_size = 0;
+    for (int i = 0; i < count; i++) 
+    {
+        if (!Neicun_space[i].fenpei && Neicun_space[i].size >= size) 
+        {
+            if (Neicun_space[i].size > max_size) 
+            {
+                max_size = Neicun_space[i].size;
+                start_index = i;
+            }
+        }
+    }
+    if (start_index == -1) 
+    {
+        // 没有找到合适的空闲块，分配失败
+        return NULL;
+    }
+    NeiCun* block = &Neicun_space[start_index];
+    if (block->size == size) 
+    {
+        // 空闲块大小正好等于请求大小，不需要分割
+        block->fenpei = true;
+        return block;
+    }
+    // 分割空闲块
+    NeiCun new_block = { block->start + size, block->size - size, false };
+    if (count < MAX_NUM) 
+    {
+        // 把新分配的空闲块添加到内存分区数组中
+        for (int i = count; i > start_index + 1; i--) 
+        {
+            Neicun_space[i] = Neicun_space[i - 1];
+        }
+        Neicun_space[start_index + 1] = new_block;
+        count++;
+        block->size = size;
+        block->fenpei = true;
+        return block;
+    }
+    else {
+        // 内存分区数组已满，分配失败
+        return NULL;
+    }
+}
+
+// 修改内存分块数据
+void wspace(int start, int size, const char* data) 
+{
+    NeiCun* space = find_start(start);
+    if (space != NULL && space->fenpei && space->size >= size)
+    {
+        // 如果找到该内存分块并且未被占用，可以修改数据
+        const char* val = data;
+        for (int i = 0; i < size; i++) 
+        {
+            *(char*)(start + i) = *val;
+            val++;
+        }
+    }
+}
+
+// 释放已占用的内存分块
+void fspace(int start) 
+{
+    NeiCun* space2 = find_start(start);
+    if (space2 != NULL && space2->fenpei) 
+    {
+        // 找到该内存分块并且已被占用，可以释放
+        space2->fenpei = false;
+        // 相邻的空闲块可能需要合并
+        if (count > 1) 
+        {
+            for (int i = 0; i < count; i++) 
+            {
+                if (i < count - 1) 
+                {
+                    NeiCun* space3 = &Neicun_space[i + 1];
+                    if (!space2->fenpei && !space3->fenpei) 
+                    {
+                        // 相邻的两个块都是空闲块，需要合并
+                        space2->size += space3->size;
+                        for (int j = i + 1; j < count - 1; j++) 
+                        {
+                            Neicun_space[j] = Neicun_space[j + 1];
+                        }
+                        count--;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    init_Neicun();
+    NeiCun* s1 = FF(50);
+    NeiCun* s2 = NF(80);
+    NeiCun* s3 = FF(40);
+    wspace(s1->start, 50, "Hello world!");
+    wspace(s2->start, 80, "This is my memory.");
+    wspace(s3->start, 40, "C language.");
+    fspace(s1->start);
+    s1 = NF(100);
+    if (s1 != NULL) {
+        wspace(s1->start, 100, "New data.");
+    }
+    return 0;
+}
+
