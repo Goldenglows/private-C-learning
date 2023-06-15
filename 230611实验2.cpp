@@ -22,7 +22,7 @@ int main()
     }
 
     // 输出结果
-    printf("%d\n", dp[n]);
+    printf("%d格子\n", dp[n]);
 
     return 0;
 }
